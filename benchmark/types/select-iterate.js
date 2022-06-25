@@ -9,6 +9,23 @@ exports['better-sqlite3'] = (db, { table, columns, count }) => {
 	};
 };
 
+let lib = require('better-sqlite3-proxy')
+exports['better-sqlite3-proxy'] = (db, { table, columns, count }) => {
+	let proxy = db.proxy
+	let rows = proxy[table]
+	let rowid = -100;
+	return () => {
+		rowid += 100
+		for(let i = 0; i < count; i++) {
+			let row = rows[rowid + i]
+			if (!row) break
+			Object.fromEntries(
+				columns.map(column => [column, row[column]])
+			)
+		}
+	};
+};
+
 exports['node-sqlite3'] = async (db, { table, columns, count }) => {
 	const sql = `SELECT ${columns.join(', ')} FROM ${table} WHERE rowid = ?`;
 	let rowid = -100;

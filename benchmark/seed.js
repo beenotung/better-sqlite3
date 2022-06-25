@@ -4,18 +4,18 @@ const path = require('path');
 
 const tables = new Map([
 	['small', {
-		schema: '(nul, integer INTEGER, real REAL, text TEXT, blob BLOB)',
-		data: [null, 0x7fffffff, 1 / 3, 'this is the text', Buffer.from('this is the blob')],
+		schema: '(id INTEGER PRIMARY KEY, nul, integer INTEGER, real REAL, text TEXT, blob BLOB)',
+		data: [null, null, 0x7fffffff, 1 / 3, 'this is the text', Buffer.from('this is the blob')],
 		count: 10000,
 	}],
 	['large_text', {
-		schema: '(text TEXT)',
-		data: ['this is the text'.repeat(2048)],
+		schema: '(id INTEGER PRIMARY KEY, text TEXT)',
+		data: [null, 'this is the text'.repeat(2048)],
 		count: 10000,
 	}],
 	['large_blob', {
-		schema: '(blob BLOB)',
-		data: [Buffer.from('this is the blob'.repeat(2048))],
+		schema: '(id INTEGER PRIMARY KEY, blob BLOB)',
+		data: [null, Buffer.from('this is the blob'.repeat(2048))],
 		count: 10000,
 	}],
 ]);

@@ -7,6 +7,13 @@ exports['better-sqlite3'] = (db, { table, columns }) => {
 	return () => stmt.run(row);
 };
 
+exports['better-sqlite3-proxy'] = (db, { table, columns }) => {
+	const rows = db.proxy[table]
+	const row = db.prepare(`SELECT * FROM ${table} LIMIT 1`).get();
+	delete row.id
+	return () => rows.push(row);
+};
+
 exports['node-sqlite3'] = async (db, { table, columns }) => {
 	const sql = `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${columns.map(x => '@' + x).join(', ')})`;
 	const row = Object.assign({}, ...Object.entries(await db.get(`SELECT * FROM ${table} LIMIT 1`))

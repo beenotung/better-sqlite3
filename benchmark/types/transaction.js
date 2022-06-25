@@ -10,6 +10,16 @@ exports['better-sqlite3'] = (db, { table, columns }) => {
 	return () => trx(row);
 };
 
+exports['better-sqlite3-proxy'] = (db, { table, columns }) => {
+	const rows = db.proxy[table]
+	const row = db.prepare(`SELECT * FROM ${table} LIMIT 1`).get();
+	delete row.id
+	const trx = db.transaction((row) => {
+		for (let i = 0; i < 100; ++i) rows.push(row);
+	});
+	return () => trx(row);
+};
+
 exports['node-sqlite3'] = async (db, { table, columns, driver, pragma }) => {
 	const sql = `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${columns.map(x => '@' + x).join(', ')})`;
 	const row = Object.assign({}, ...Object.entries(await db.get(`SELECT * FROM ${table} LIMIT 1`))

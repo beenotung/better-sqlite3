@@ -12,6 +12,17 @@ module.exports = new Map([
 		for (const str of pragma) db.pragma(str);
 		return db;
 	}],
+	['better-sqlite3-proxy', async (filename, pragma) => {
+		const db = require('../.')(filename);
+		const proxy = require('better-sqlite3-proxy').proxySchema(db, {
+			large_blob: [],
+			large_text: [],
+			small: []
+		})
+		Object.assign(db, {proxy})
+		for (const str of pragma) db.pragma(str);
+		return db;
+	}],
 	['node-sqlite3', async (filename, pragma) => {
 		const driver = require('sqlite3').Database;
 		const db = await (require('sqlite').open)({ filename, driver });
