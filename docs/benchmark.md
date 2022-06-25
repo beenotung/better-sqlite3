@@ -11,28 +11,33 @@ node benchmark
 
 # Results
 
-These results are from 03/29/2020, on a MacBook Pro (Retina, 15-inch, Mid 2014, OSX 10.11.6), using nodejs v12.16.1.
+These results are from 07/25/2022, on a system76 kudu3 (i7, Oct 2016, 5.17.4-arch), using nodejs v16.14.2.
 
 ```
 --- reading rows individually ---
-better-sqlite3 x 313,899 ops/sec ±0.13%
-node-sqlite3   x 26,780 ops/sec ±2.9%
+better-sqlite3       x 250,792 ops/sec ±0.13%
+better-sqlite3-proxy x 73,616 ops/sec ±0.22%
+node-sqlite3         x 20,073 ops/sec ±0.43%
 
 --- reading 100 rows into an array ---
-better-sqlite3 x 8,508 ops/sec ±0.27%
-node-sqlite3   x 2,930 ops/sec ±0.37%
+better-sqlite3       x 7,187 ops/sec ±0.21%
+better-sqlite3-proxy x 9 ops/sec ±3.33%
+node-sqlite3         x 2,167 ops/sec ±0.41%
 
 --- iterating over 100 rows ---
-better-sqlite3 x 6,532 ops/sec ±0.32%
-node-sqlite3   x 268 ops/sec ±3.4%
+better-sqlite3       x 5,848 ops/sec ±0.26%
+better-sqlite3-proxy x 9 ops/sec ±3.96%
+node-sqlite3         x 203 ops/sec ±1.62%
 
 --- inserting rows individually ---
-better-sqlite3 x 62,554 ops/sec ±7.33%
-node-sqlite3   x 22,637 ops/sec ±4.37%
+better-sqlite3       x 21,264 ops/sec ±11.7%
+better-sqlite3-proxy x 20,155 ops/sec ±9.34%
+node-sqlite3         x 9,251 ops/sec ±9.02%
 
 --- inserting 100 rows in a single transaction ---
-better-sqlite3 x 4,141 ops/sec ±4.57%
-node-sqlite3   x 265 ops/sec ±4.87%
+better-sqlite3       x 2,829 ops/sec ±7.19%
+better-sqlite3-proxy x 1,677 ops/sec ±6.24%
+node-sqlite3         x 130 ops/sec ±3.63%
 ```
 
 > All benchmarks are executed in [WAL mode](./performance.md).
